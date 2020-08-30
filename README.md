@@ -17,7 +17,7 @@
 
 - **Wireshark Lab**
   - [x] Lab1:  Getting Started
-  - [ ] Lab2:  HTTP
+  - [x] Lab2:  HTTP
   - [ ] Lab3:  DNS
   - [ ] Lab4:  TCP
   - [ ] Lab5:  UDP
