@@ -1,9 +1,8 @@
-# Update date: 2020/12/03
+# Update date: 2020/12/14
 # Author: Zhuofan Zhang
 import socket
 import os
 import argparse
-from urllib.parse import urlparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--port', type=int, default=80)
@@ -30,12 +29,14 @@ while True:
     connectSocket, addr = listenSocket.accept()
     print("connect success to {}".format(addr))
     recvData = connectSocket.recv(buffSize).decode()
-    requestFile = recvData.split()[1][1:]
-    with open(os.path.join(fileDir, requestFile), 'r') as rfile:
-        responseData = rfile.read()
-        responseHeader = "HTTP/1.1 200 OK\nConnection: close\nContent-Type: text/html\nContent-Length: {}\n\n".format(len(responseData))
-        connectSocket.send(responseHeader.encode())
-        connectSocket.send(responseData.encode())
+    print("recv Data: {}".format(recvData))
+    requestFile = recvData.split()[1]
+    if requestFile[-4:] == 'html':
+        with open(os.path.join(fileDir, requestFile), 'r') as rfile:
+            responseData = rfile.read()
+            responseHeader = "HTTP/1.1 200 OK\nConnection: close\nContent-Type: text/html\nContent-Length: {}\n\n".format(len(responseData))
+            connectSocket.send(responseHeader.encode())
+            connectSocket.send(responseData.encode())
     connectSocket.close()
 
 
